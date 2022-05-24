@@ -14,4 +14,24 @@ class Course(models.Model):
 
 
 class Station(models.Model):
+    name = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.name
+
+
+class Timetable(models.Model):
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE)
+    stations = models.ForeignKey(Station, on_delete=models.CASCADE)
     lp_station = models.PositiveIntegerField()
+
+
+class Carriage(models.Model):
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+
+class Seating(models.Model):
+    carriages = models.ForeignKey(Carriage, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"seat number: {self.id} of carriage: {self.carriages}"
