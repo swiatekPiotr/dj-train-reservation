@@ -10,7 +10,7 @@ class Course(models.Model):
     time = models.TimeField()
 
     def __str__(self):
-        return f"from {self.start} to {self.end}"
+        return f"from {self.start} -> to {self.end}"
 
 
 class Station(models.Model):
@@ -24,10 +24,14 @@ class Timetable(models.Model):
     courses = models.ForeignKey(Course, on_delete=models.CASCADE)
     stations = models.ForeignKey(Station, on_delete=models.CASCADE)
     lp_station = models.PositiveIntegerField()
+    at_location = models.TimeField(default=timezone.now())
 
 
 class Carriage(models.Model):
     courses = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"car number:{self.id} ({self.courses})"
 
 
 class Seating(models.Model):
