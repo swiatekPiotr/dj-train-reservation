@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Home page {% endblock %}
+
+{% block content %}
+
+    <div class="container" style="background-color: rgb(35,190,235);">
+        <div class="section-heading">
+            <h3 align="start" style="margin: 15px; text-align: center;"> Search connections </h3>
+        </div>
+        <form action="/" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-1" style="margin-bottom: 80px;">
+                </div>
+                <div class="col-3">
+                    <a> from </a>
+                    <input type="text" name="search-from" class="form-control" placeholder="Enter train station">
+                </div>
+                <div class="col-3">
+                    <a> to </a>
+                    <input type="text" name="search-to" class="form-control" placeholder="Enter train station">
+                </div>
+                <div class="col-1">
+                </div>
+                <div class="col-2">
+                    <a> departing </a> <br>
+                    <input id="party" type="time" name="departing">
+                </div>
+                <div class="col-2" style="margin-top: 15px;">
+                    <button type="submit" class="btn" style="background-color: orange;"> Search </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
