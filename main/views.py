@@ -24,7 +24,10 @@ def home(request):
                 selected_courses = []
                 for i in selected_courses_id:
                     selected_courses.append(Course.objects.get(id=i))
-                return render(request, 'main/home.html', {'selected_courses': selected_courses})
+                return render(request, 'main/home.html', {'search_from': search_from,
+                                                          'search_to': search_to,
+                                                          'selected_courses_from': selected_courses_from,
+                                                          'selected_courses': selected_courses})
 
         except (MultipleObjectsReturned, ValueError, Exception):
             pass
