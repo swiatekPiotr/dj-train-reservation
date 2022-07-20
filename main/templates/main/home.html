@@ -4,6 +4,7 @@
 
 {% block content %}
 
+    <!--search connections-->
     <div class="container" style="background-color: rgb(35,190,235);">
         <div class="section-heading">
             <h3 align="start" style="margin: 15px; text-align: center;"> Search connections </h3>
@@ -41,21 +42,26 @@
             <h5> remember that the stations must be pass in english </h5>
         {% else %}
             {% for course in selected_courses %}
-                <div class="row">
+                <div class="row" onclick="location.href='course/{{ course.id }}'" title="view details of this course">
                     <div class="col-3" style="background-color: rgb(200,195,110);">
-                        {% for course_times in selected_courses_from %}
-                            {% if course_times.courses_id == course.id %}
-                                <a style="font-size: 30px;"> {{ course_times.at_location|date:"H:i" }} </a>
+                        {% for course_start_time in selected_courses_from %}
+                            {% if course_start_time.courses_id == course.id %}
+                                <a style="font-size: 30px;"> {{ course_start_time.at_location|date:"H:i" }} </a>
                             {% endif %}
                         {% endfor %}
                     </div>
                     <div class="col" style="background-color: rgb(200,195,110);">
-                        <a style="font-size: 12px;"> {{ course.start }} - {{ course.end }} </a><br>
+                        <a style="font-size: 12px;"> {{ course.start }} - {{ course.end }}
+                            (total {{ course.time|date:"H:i" }})</a><br>
                         {{ search_from }} ---> {{ search_to }}
                     </div>
                     <div class="col-3" style="background-color: rgb(200,195,110);">
-                        <a style="font-size: 12px;"> total time: </a><br>
-                        ({{ course.time|date:"H:i" }})
+                        <a style="font-size: 12px;"> time of trip: </a><br>
+                        {% for key, value in trip_times.items %}
+                            {% if key == course.id %}
+                                {{ value }}
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 <h1></h1>
