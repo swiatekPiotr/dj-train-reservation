@@ -42,7 +42,8 @@
             <h5> remember that the stations must be pass in english </h5>
         {% else %}
             {% for course in selected_courses %}
-                <div class="row" onclick="location.href='course/{{ course.id }}'" title="view details of this course">
+                <div class="row" onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}'"
+                     title="view details of this course">
                     <div class="col-3" style="background-color: rgb(200,195,110);">
                         {% for course_start_time in selected_courses_from %}
                             {% if course_start_time.courses_id == course.id %}

@@ -1,6 +1,6 @@
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render
-from .models import Station, Timetable, Course
+from .models import Station, Timetable, Course, Carriage, Seating
 from datetime import datetime, date
 
 
@@ -48,6 +48,14 @@ def home(request):
     return render(request, 'main/home.html', {})
 
 
-def course(request, id):
-    single_course = Course.objects.get(id=id)
-    return render(request, 'main/course.html', {'single_course': single_course})
+def course(request, id_cour, id_from, id_to):
+    course_name = Course.objects.get(id=id_cour)
+    search_from = Station.objects.get(id=id_from)
+    search_to = Station.objects.get(id=id_to)
+    course_timetable = Timetable.objects.filter(courses_id=id_cour)
+    carriages = Carriage.objects.filter(courses_id=id_cour)
+    return render(request, 'main/course.html', {'course_name': course_name,
+                                                'search_from': search_from,
+                                                'search_to': search_to,
+                                                'course_timetable': course_timetable,
+                                                'carriages': carriages})

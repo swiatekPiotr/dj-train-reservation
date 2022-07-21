@@ -4,6 +4,41 @@
 
 {% block content %}
 
-    <h3> Course {{ single_course }}</h3>
+    <div class="container" style="margin-top: 20px; text-align: center;">
+        <div class="row">
+            <div class="col-3" style="background-color: orange;">
+                <h3> {{ search_from }}</h3>
+                {% for station in course_timetable %}
+                    {% if station.stations_id == search_from.id %}
+                        {{ station.at_location|date:"H:i" }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col" style="background-color: orange;">
+                <p> Course: {{ course_name }} </p>
+                <p> O------------------------------------------------------------------------------O </p>
+            </div>
+            <div class="col-3" style="background-color: orange;">
+                <h3> {{ search_to }}</h3>
+                {% for station in course_timetable %}
+                    {% if station.stations_id == search_to.id %}
+                        {{ station.at_location|date:"H:i" }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row" style="margin-top: 50px;">
+            <div class="col-2"></div>
+            {% for car in carriages %}
+            <div class="col" style="border: 3px solid #43CE11; margin: 10px;">
+                <div class="row">
+                    Car {{ car.id }}
+                </div>
+                <div class="row" style="border: 3px solid #43CE11; margin-bottom: 1px;"></div>
+            </div>
+            {% endfor %}
+            <div class="col-2"></div>
+        </div>
+    </div>
 
 {% endblock %}
