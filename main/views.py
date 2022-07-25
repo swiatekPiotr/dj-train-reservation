@@ -54,8 +54,10 @@ def course(request, id_cour, id_from, id_to):
     search_to = Station.objects.get(id=id_to)
     course_timetable = Timetable.objects.filter(courses_id=id_cour)
     carriages = Carriage.objects.filter(courses_id=id_cour)
+    seats = [obj.id for obj in Seating.objects.all() if obj.carriages_id in [car.id for car in carriages]]
     return render(request, 'main/course.html', {'course_name': course_name,
                                                 'search_from': search_from,
                                                 'search_to': search_to,
                                                 'course_timetable': course_timetable,
-                                                'carriages': carriages})
+                                                'carriages': carriages,
+                                                'seats': seats})
