@@ -1,3 +1,5 @@
+import random
+
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render
 from .models import Station, Timetable, Course, Carriage, Seating
@@ -23,6 +25,7 @@ def home(request):
             if str(selected_courses_id) != '[]':
                 selected_courses = []
                 trip_times = {}
+                random_car_id = {}
                 for i in selected_courses_id:
                     selected_courses.append(Course.objects.get(id=i))
 
@@ -36,11 +39,14 @@ def home(request):
                         trip_times[i] = (datetime.combine(date.today(), b.at_location) -
                                           datetime.combine(date.today(), a.at_location))
 
+                    random_car_id[i] = random.choice([obj.id for obj in Carriage.objects.filter(courses_id=i)])
+
                 return render(request, 'main/home.html', {'search_from': search_from,
                                                           'search_to': search_to,
                                                           'selected_courses_from': selected_courses_from,
                                                           'selected_courses': selected_courses,
-                                                          'trip_times': trip_times})
+                                                          'trip_times': trip_times,
+                                                          'random_car_id': random_car_id})
 
         except (MultipleObjectsReturned, ValueError, Exception):
             pass
@@ -48,7 +54,7 @@ def home(request):
     return render(request, 'main/home.html', {})
 
 
-def course(request, id_cour, id_from, id_to):
+def course(request, id_cour, id_from, id_to, id_car):
     course_name = Course.objects.get(id=id_cour)
     search_from = Station.objects.get(id=id_from)
     search_to = Station.objects.get(id=id_to)
@@ -60,4 +66,5 @@ def course(request, id_cour, id_from, id_to):
                                                 'search_to': search_to,
                                                 'course_timetable': course_timetable,
                                                 'carriages': carriages,
+                                                'id_car': id_car,
                                                 'seats': seats})

@@ -33,14 +33,25 @@
         <div class="row" style="margin-top: 50px;">
             <div class="col-2"></div>
             {% for car in carriages %}
-            <div class="col" style="border: 3px solid #43CE11; margin: 10px;"
-                 onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ car.id }}'"
-                 title="view seats of the car">
-                <div class="row">
-                    Car {{ car.id }}
+                {% if car.id == id_car %}
+                <div class="col" style="border: 3px solid orange; margin: 10px;"
+                     onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ car.id }}'"
+                     title="view seats of the car">
+                    <div class="row">
+                        Car {{ car.id }}
+                    </div>
+                    <div class="row" style="border: 3px solid orange; margin-bottom: 1px;"></div>
                 </div>
-                <div class="row" style="border: 3px solid #43CE11; margin-bottom: 1px;"></div>
-            </div>
+                {% else %}
+                <div class="col" style="border: 3px solid #43CE11; margin: 10px;"
+                     onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ car.id }}'"
+                     title="view seats of the car">
+                    <div class="row">
+                        Car {{ car.id }}
+                    </div>
+                    <div class="row" style="border: 3px solid #43CE11; margin-bottom: 1px;"></div>
+                </div>
+                {% endif %}
             {% endfor %}
             <div class="col-2"></div>
         </div>

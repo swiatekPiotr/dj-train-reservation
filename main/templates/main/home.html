@@ -42,29 +42,33 @@
             <h5> remember that the stations must be pass in english </h5>
         {% else %}
             {% for course in selected_courses %}
-                <div class="row" onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}'"
-                     title="view details of this course">
-                    <div class="col-3" style="background-color: rgb(200,195,110);">
-                        {% for course_start_time in selected_courses_from %}
-                            {% if course_start_time.courses_id == course.id %}
-                                <a style="font-size: 30px;"> {{ course_start_time.at_location|date:"H:i" }} </a>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="col" style="background-color: rgb(200,195,110);">
-                        <a style="font-size: 12px;"> {{ course.start }} - {{ course.end }}
-                            (total {{ course.time|date:"H:i" }})</a><br>
-                        {{ search_from }} ---> {{ search_to }}
-                    </div>
-                    <div class="col-3" style="background-color: rgb(200,195,110);">
-                        <a style="font-size: 12px;"> time of trip: </a><br>
-                        {% for key, value in trip_times.items %}
-                            {% if key == course.id %}
-                                {{ value }}
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
+                {% for key, value in random_car_id.items %}
+                    {% if key == course.id %}
+                        <div class="row" onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ value }}'"
+                             title="view details of this course">
+                            <div class="col-3" style="background-color: rgb(200,195,110);">
+                                {% for course_start_time in selected_courses_from %}
+                                    {% if course_start_time.courses_id == course.id %}
+                                        <a style="font-size: 30px;"> {{ course_start_time.at_location|date:"H:i" }} </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="col" style="background-color: rgb(200,195,110);">
+                                <a style="font-size: 12px;"> {{ course.start }} - {{ course.end }}
+                                    (total {{ course.time|date:"H:i" }})</a><br>
+                                {{ search_from }} ---> {{ search_to }}
+                            </div>
+                            <div class="col-3" style="background-color: rgb(200,195,110);">
+                                <a style="font-size: 12px;"> time of trip: </a><br>
+                                {% for key, value in trip_times.items %}
+                                    {% if key == course.id %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
                 <h1></h1>
             {% endfor %}
         {% endif %}
