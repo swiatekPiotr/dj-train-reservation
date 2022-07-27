@@ -31,49 +31,42 @@
 
         <!--cars view-->
         <div class="row" style="margin-top: 50px;">
-            <div class="col-2"></div>
+            <div class="col-2" style="text-align: right;"> <<< </div>
             {% for car in carriages %}
                 {% if car.id == id_car %}
-                <div class="col" style="border: 3px solid orange; margin: 10px;"
-                     onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ car.id }}'"
-                     title="view seats of the car">
-                    <div class="row">
-                        Car {{ car.id }}
+                    <div class="col" onclick="location.href='/course/{{ course_name.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ car.id }}'"
+                         title="view seats of the car">
+                        <div class="row" style="border: 5px solid orange; border-radius: 12px; margin: 1px;">
+                            Car {{ car.id }}
+                        </div>
+                        <div class="row" style="border: 3px solid orange; margin: 3px;"></div>
                     </div>
-                    <div class="row" style="border: 3px solid orange; margin-bottom: 1px;"></div>
-                </div>
                 {% else %}
-                <div class="col" style="border: 3px solid #43CE11; margin: 10px;"
-                     onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ car.id }}'"
-                     title="view seats of the car">
-                    <div class="row">
-                        Car {{ car.id }}
+                    <div class="col" onclick="location.href='/course/{{ course_name.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ car.id }}'"
+                         title="view seats of the car">
+                        <div class="row" style="border: 5px solid #43CE11; border-radius: 12px; margin: 1px;">
+                            Car {{ car.id }}
+                        </div>
+                        <div class="row" style="border: 3px solid #43CE11; margin: 3px;"></div>
                     </div>
-                    <div class="row" style="border: 3px solid #43CE11; margin-bottom: 1px;"></div>
-                </div>
                 {% endif %}
             {% endfor %}
-            <div class="col-2"></div>
+            <div class="col-2" style="text-align: left;"> <<< </div>
         </div>
 
         <!--seats view-->
         <div class="row" style="margin-top: 50px; border: 1px solid black;">
-            <div class="col-1">
-                <div class="col-1">
-                    <img src="{% static 'img/available.png' %}">
-                </div>
-                <div class="col-1">
-                    <img src="{% static 'img/available.png' %}">
-                </div>
-                <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
-                </div>
-                <div class="col-1">
-                    <img src="{% static 'img/available.png' %}">
-                </div>
-                <div class="col-1">
-                    <img src="{% static 'img/available.png' %}">
-                </div>
-            </div>
+            {% if id_car in odd_numbers %}
+                {% for seat in seats %}
+                    <div class="col">
+                        <img src="{% static 'img/available.png' %}">
+                    </div>
+                    {% if seat in row_list %}
+                        <p>saf</p>
+                        <div class="row" style="margin-top: 30px; margin-bottom: 30px;"></div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
