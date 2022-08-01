@@ -55,18 +55,43 @@
         </div>
 
         <!--seats view-->
-        <div class="row" style="margin-top: 50px; border: 1px solid black;">
-            {% if id_car in odd_numbers %}
-                {% for seat in seats %}
-                    <div class="col">
-                        <img src="{% static 'img/available.png' %}">
-                    </div>
-                    {% if seat in row_list %}
-                        <p>saf</p>
-                        <div class="row" style="margin-top: 30px; margin-bottom: 30px;"></div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+        <div class="container">
+            <div class="col-4">
+                <div class="row" style="margin-top: 50px; border: 1px solid black;">
+                    {% for seat in seats %}
+                        <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                            <img src="{% static 'img/available.png' %}" style="width: 100%;
+                            transform: rotate(90deg);">
+                        </div>
+                        {% if seat in row_list %}
+                            <div class="row" style="margin-top: 20px; margin-bottom: 20px;"></div>
+                            <div class="col"></div>
+                        {% elif seat in corridor_column %}
+                            <div class="col"></div>
+                        {% endif %}
+
+                        <!--table in rows-->
+                        {% if seat == 12 or seat == 24 or seat == 52 %}
+                            <div class="col"></div>
+                            <div class="row" style="margin-top: -40px;">
+                                <div class="col-3">
+                                    <img src="{% static 'img/table.png' %}" style="width: 100%;
+                                    transform: rotate(90deg);">
+                                </div>
+                                <div class="col-5"></div>
+                                <div class="col-3">
+                                    <img src="{% static 'img/table.png' %}" style="width: 100%;
+                                    transform: rotate(90deg);">
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
         </div>
     </div>
 

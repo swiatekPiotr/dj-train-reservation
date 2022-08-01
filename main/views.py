@@ -60,15 +60,15 @@ def course(request, id_cour, id_from, id_to, id_car):
     search_to = Station.objects.get(id=id_to)
     course_timetable = Timetable.objects.filter(courses_id=id_cour)
     carriages = Carriage.objects.filter(courses_id=id_cour)
-    odd_numbers = (i for i in range(250) if i % 2 != 0)
     seats = [obj.id for obj in Seating.objects.all() if obj.carriages_id == id_car]
-    row_list = (i for i in range(250) if i % 4 == 0)
+    row_list = [i for i in range(250) if i % 4 == 0]
+    corridor_column = [i-2 for i in row_list]
     return render(request, 'main/course.html', {'course_name': course_name,
                                                 'search_from': search_from,
                                                 'search_to': search_to,
                                                 'course_timetable': course_timetable,
                                                 'carriages': carriages,
                                                 'id_car': id_car,
-                                                'odd_numbers': odd_numbers,
                                                 'seats': seats,
-                                                'row_list': row_list})
+                                                'row_list': row_list,
+                                                'corridor_column': corridor_column})
