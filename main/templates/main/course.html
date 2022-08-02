@@ -66,12 +66,12 @@
                         {% if seat in row_list %}
                             <div class="row" style="margin-top: 20px; margin-bottom: 20px;"></div>
                             <div class="col"></div>
-                        {% elif seat in corridor_column %}
+                        {% elif seat|add:'2' in row_list %}
                             <div class="col"></div>
                         {% endif %}
 
                         <!--table in rows-->
-                        {% if seat == 12 or seat == 24 or seat == 52 %}
+                        {% if seat == 12 or seat == 20 or seat == 72 or seat == 80 or seat == 108 or seat == 116 %}
                             <div class="col"></div>
                             <div class="row" style="margin-top: -40px;">
                                 <div class="col-3">
@@ -82,6 +82,116 @@
                                 <div class="col-3">
                                     <img src="{% static 'img/table.png' %}" style="width: 100%;
                                     transform: rotate(90deg);">
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <!--luggage in rows-->
+                        {% if seat == 28 or seat == 52 or seat == 96 or seat == 152 %}
+                            <div class="col"></div>
+                            <div class="row" style="margin-top: 80px; margin-bottom: 120px;">
+                                <div class="col-3">
+                                    <img src="{% static 'img/luggage.png' %}" style="width: 100%;">
+                                </div>
+                                <div class="col-5"></div>
+                                <div class="col-3">
+                                    <img src="{% static 'img/luggage.png' %}" style="width: 100%;">
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <!--restaurant in rows-->
+                        {% if seat == 36 or seat == 128 %}
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(90deg);">
+                            </div>
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(90deg);">
+                            </div>
+                            <div class="col"></div>
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(90deg);">
+                            </div>
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(90deg);">
+                            </div>
+                            <div class="row" style="margin-top: 20px; margin-bottom: 20px;"></div>
+                            <div class="col"></div>
+
+                            <div class="col"></div>
+                            <div class="row" style="margin-top: -40px;">
+                                <div class="col-3">
+                                    <img src="{% static 'img/table.png' %}" style="width: 100%;
+                                    transform: rotate(90deg);">
+                                </div>
+                                <div class="col-5"></div>
+                                <div class="col-3">
+                                    <img src="{% static 'img/table.png' %}" style="width: 100%;
+                                    transform: rotate(90deg);">
+                                </div>
+                            </div>
+
+
+                            <div class="col"></div>
+                            <div class="row" style="margin-top: 180px; margin-bottom: 220px;">
+                                <div class="col-3">
+                                    <img src="{% static 'img/restaurant.png' %}" style="width: 100%;">
+                                </div>
+                                <div class="col-5"></div>
+                                <div class="col-3">
+                                    <img src="{% static 'img/restaurant.png' %}" style="width: 100%;">
+                                </div>
+                            </div>
+
+
+                            <div class="col"></div>
+                            <div class="row" style="margin-top: -40px;">
+                                <div class="col-3">
+                                    <img src="{% static 'img/table.png' %}" style="width: 100%;
+                                    transform: rotate(90deg);">
+                                </div>
+                                <div class="col-5"></div>
+                                <div class="col-3">
+                                    <img src="{% static 'img/table.png' %}" style="width: 100%;
+                                    transform: rotate(90deg);">
+                                </div>
+                            </div>
+
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(-90deg);">
+                            </div>
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(-90deg);">
+                            </div>
+                            <div class="col"></div>
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(-90deg);">
+                            </div>
+                            <div class="col" style="margin-left: -10px; margin-right: -10px;">
+                                <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                transform: rotate(-90deg);">
+                            </div>
+                            <div class="row" style="margin-top: 10px;"></div>
+                            <div class="col"></div>
+                        {% endif %}
+
+                        <!--toilet in rows-->
+                        {% if seat == 68 or seat == 120 or seat == 152 %}
+                            <div class="col"></div>
+                            <div class="row" style="margin-top: 120px; margin-bottom: 160px;">
+                                <div class="col-3">
+                                    <img src="{% static 'img/toilet.png' %}" style="width: 100%;">
+                                </div>
+                                <div class="col-5"></div>
+                                <div class="col-3">
+                                    <img src="{% static 'img/toilet.png' %}" style="width: 100%;">
                                 </div>
                             </div>
                         {% endif %}
