@@ -55,7 +55,7 @@
         </div>
 
         <!--seats view-->
-        <div class="container">
+        <div class="row">
             <div class="col-4">
                 <div class="row" style="margin-top: 50px; border: 1px solid black;">
                     {% for seat in seats %}
@@ -197,10 +197,29 @@
                         {% endif %}
 
                     {% endfor %}
+
+                    <div class="col" style="text-align: center; background-color: black;">
+                        <h3> driving direction </h3>
+                        <h3> \/ </h3>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-
+            <div class="col" style="margin-top: 50px;">
+                <div class="row">
+                    <h3 style="margin-bottom: 30px;"> Legend: </h3>
+                    <div class="col">
+                        <img src="{% static 'img/available.png' %}" style="transform: rotate(90deg);">
+                        <p> available place </p>
+                    </div>
+                    <div class="col">
+                        <img src="{% static 'img/chosen.png' %}" style="transform: rotate(90deg);">
+                        <p> your chosen place </p>
+                    </div>
+                    <div class="col">
+                        <img src="{% static 'img/unavailable.png' %}" style="transform: rotate(90deg);">
+                        <p> unavailable place </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
