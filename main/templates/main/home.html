@@ -45,7 +45,7 @@
                 {% for key, value in random_car_id.items %}
                     {% if key == course.id %}
                         <div class="row" onclick="location.href='course/{{ course.id }}/{{ search_from.id }}/{{ search_to.id }}/{{ value }}'"
-                             title="view details of this course">
+                             title="view details of this course" style="cursor: pointer;">
                             <div class="col-3" style="background-color: rgb(200,195,110);">
                                 {% for course_start_time in selected_courses_from %}
                                     {% if course_start_time.courses_id == course.id %}

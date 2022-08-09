@@ -62,6 +62,20 @@ def course(request, id_cour, id_from, id_to, id_car):
     carriages = Carriage.objects.filter(courses_id=id_cour)
     seats = [obj.id for obj in Seating.objects.all() if obj.carriages_id == id_car]
     row_list = [i for i in range(250) if i % 4 == 0]
+
+    if request.method == "POST":
+        print(request.POST.dict())
+        chose_id = request.POST['chose']
+        return render(request, 'main/course.html', {'course_name': course_name,
+                                                    'search_from': search_from,
+                                                    'search_to': search_to,
+                                                    'course_timetable': course_timetable,
+                                                    'carriages': carriages,
+                                                    'id_car': id_car,
+                                                    'seats': seats,
+                                                    'row_list': row_list,
+                                                    'chose_id': chose_id})
+
     return render(request, 'main/course.html', {'course_name': course_name,
                                                 'search_from': search_from,
                                                 'search_to': search_to,
