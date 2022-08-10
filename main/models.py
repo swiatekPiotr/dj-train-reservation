@@ -46,6 +46,7 @@ class Reservation(models.Model):
     reservation_start_time = models.TimeField()
     reservation_end_time = models.TimeField()
     personality = models.CharField(max_length=80)
+    discount = models.DecimalField(max_digits=3, decimal_places=2)
 
     def __str__(self):
         return f"{self.personality}, seat of number: {self.seats}"

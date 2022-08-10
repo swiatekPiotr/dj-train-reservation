@@ -64,8 +64,7 @@ def course(request, id_cour, id_from, id_to, id_car):
     row_list = [i for i in range(250) if i % 4 == 0]
 
     if request.method == "POST":
-        print(request.POST.dict())
-        chose_id = request.POST['chose']
+        chose_id = int(request.POST['chose'])
         return render(request, 'main/course.html', {'course_name': course_name,
                                                     'search_from': search_from,
                                                     'search_to': search_to,

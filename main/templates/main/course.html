@@ -61,10 +61,17 @@
                     {% for seat in seats %}
                         <div class="col" style="margin-left: -10px; margin-right: -10px; cursor: pointer;">
                             <form method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="chose" value="{{ seat }}">
-                                <input type="image" src="{% static 'img/available.png' %}"
-                                       style="width: 100%; transform: rotate(90deg);">
+                                {% if seat == chose_id %}
+                                    {% csrf_token %}
+                                    <input type="hidden" name="chose" value="{{ seat }}">
+                                    <input type="image" src="{% static 'img/chosen.png' %}"
+                                           style="width: 100%; transform: rotate(90deg);">
+                                {% else %}
+                                    {% csrf_token %}
+                                    <input type="hidden" name="chose" value="{{ seat }}">
+                                    <input type="image" src="{% static 'img/available.png' %}"
+                                           style="width: 100%; transform: rotate(90deg);">
+                                {% endif %}
                             </form>
                         </div>
                         {% if seat in row_list %}
@@ -226,16 +233,16 @@
                 </div>
 
                 {% if chose_id %}
-                <div class="row" style="margin-top: 80px;">
-                    <div class="col-4">
+                <div class="row" style="margin-top: 120px;">
+                    <div class="col">
                         <p> first name * </p>
                         <input type="text" name="first-name">
                     </div>
-                    <div class="col-4">
+                    <div class="col">
                         <p> last name * </p>
                         <input type="text" name="last-name">
                     </div>
-                    <div class="col-3">
+                    <div class="col">
                         <p style="white-space: pre-line;"> year of birth * </p>
                         <select data-field="birthdate" id="" name="year-of-birth">
 							<option value="0" disabled="" selected="">RRRR</option>
@@ -363,7 +370,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 30px;">
+                <div class="row" style="margin: 30px;">
                     <select name="kod_znizki" id="kod_znizki" class="znizki_wrapper" nr="0"
                             onchange="zmianaZnizkiOfertaKierowcow(false); liczba_lozek();">
                         <option value="0" title="" selected="">Ulga/rodzaj rezerwacji</option>
@@ -376,7 +383,7 @@
                         <option title="Żołnierze odbywający niezawodową służbę wojskową, z wyjątkiem służby okresowej i nadterminowej" value="78">78% Żołnierze </option>
                         <option title="Opiekun lub przewodnik towarzyszący w podróży osobie niezdolnej do samodzielnej egzystencji, osobie niewidomej, cywilnej niewidomej ofierze działań wojennych" value="95">95% Przewodnik/Opiekun </option>
                         <option title="Bilet dla dziecka do ukończenia 4. roku życia." value="100">100% Dla dziecka do lat 4 </option>
-                        <option title="Pracownik kolei (w kolejnym kroku konieczne jest podanie kodu pracodawcy)" value="99">Pracownik kolei </option>
+                        <option title="Pracownik kolei (w kolejnym kroku konieczne jest podanie kodu pracodawcy)" value="101">Pracownik kolei </option>
                     </select>
                 </div>
                 {% endif %}
