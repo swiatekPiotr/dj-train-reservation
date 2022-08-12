@@ -1,8 +1,11 @@
 import random
 
 from django.core.exceptions import MultipleObjectsReturned
+from django.utils.datastructures import MultiValueDictKeyError
 from django.shortcuts import render
+
 from .models import Station, Timetable, Course, Carriage, Seating
+from .forms import ReservationForm
 from datetime import datetime, date
 
 
@@ -60,11 +63,27 @@ def course(request, id_cour, id_from, id_to, id_car):
     search_to = Station.objects.get(id=id_to)
     course_timetable = Timetable.objects.filter(courses_id=id_cour)
     carriages = Carriage.objects.filter(courses_id=id_cour)
-    seats = [obj.id for obj in Seating.objects.all() if obj.carriages_id == id_car]
+    seats = Seating.objects.raw('SELECT * from main_seating '
+                                'WHERE carriages_id = %s '
+                                'ORDER BY id ASC', [id_car])
     row_list = [i for i in range(250) if i % 4 == 0]
 
     if request.method == "POST":
-        chose_id = int(request.POST['chose'])
+        chose_id = Seating.objects.get(id=request.POST['chose'])
+
+        # div with personal data
+        form = ReservationForm(request.POST)
+        if form.is_valid() and request.POST['first-name'] and request.POST['last-name'] \
+                and request.POST['year-of-birth'] and request.POST['kod_znizki']:
+            reservation = form.save(commit=False)
+            reservation.reservation_start_time = datetime.strptime(request.POST['reservation_start_time'], '%H:%M').time()
+            reservation.reservation_end_time = datetime.strptime(request.POST['reservation_end_time'], '%H:%M').time()
+            reservation.personality = f"{request.POST['first-name']} {request.POST['last-name']} " \
+                                      f"{request.POST['year-of-birth']}"
+            reservation.discount = int(request.POST['kod_znizki'])/100
+            reservation.save()
+            return render(request, 'main/confirmation.html', {})
+
         return render(request, 'main/course.html', {'course_name': course_name,
                                                     'search_from': search_from,
                                                     'search_to': search_to,
