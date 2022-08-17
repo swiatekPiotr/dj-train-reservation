@@ -4,7 +4,7 @@ from django.core.exceptions import MultipleObjectsReturned
 from django.utils.datastructures import MultiValueDictKeyError
 from django.shortcuts import render
 
-from .models import Station, Timetable, Course, Carriage, Seating
+from .models import Station, Timetable, Course, Carriage, Seating, Reservation
 from .forms import ReservationForm
 from datetime import datetime, date
 
@@ -68,6 +68,22 @@ def course(request, id_cour, id_from, id_to, id_car):
                                 'ORDER BY id ASC', [id_car])
     row_list = [i for i in range(250) if i % 4 == 0]
 
+    # Selected reserved seats
+    seats_id_list = [seat.id for seat in seats]
+    search_from_time = Timetable.objects.raw('SELECT at_location from main_timetable '
+                                             'WHERE courses_id = %s AND stations_id = %s', [id_cour, id_from])
+    search_to_time = Timetable.objects.raw('SELECT at_location from main_timetable '
+                                           'WHERE courses_id = %s AND stations_id = %s', [id_cour, id_to])
+    reservations = Reservation.objects.raw('SELECT seats_id from main_reservation '
+                                           'WHERE seats_id in %s AND reservation_start_time < %s '
+                                           'OR seats_id in %s AND reservation_start_time >= %s '
+                                           'AND reservation_end_time <= %s '
+                                           'OR seats_id in %s AND reservation_end_time > %s'
+                                           , [seats_id_list, search_to_time,
+                                              seats_id_list, search_from_time, search_to_time,
+                                              seats_id_list, search_from_time])
+    print(reservations)
+
     if request.method == "POST":
         chose_id = Seating.objects.get(id=request.POST['chose'])
 
@@ -101,4 +117,5 @@ def course(request, id_cour, id_from, id_to, id_car):
                                                 'carriages': carriages,
                                                 'id_car': id_car,
                                                 'seats': seats,
-                                                'row_list': row_list})
+                                                'row_list': row_list,
+                                                'reservations': reservations})

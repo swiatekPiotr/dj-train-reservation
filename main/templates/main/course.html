@@ -61,6 +61,7 @@
                     {% for seat in seats %}
                         <div class="col" style="margin-left: -10px; margin-right: -10px; cursor: pointer;">
                             <form method="POST">
+
                                 {% if seat == chose_id %}
                                     {% csrf_token %}
                                     <input type="hidden" name="chose" value="{{ seat.id }}">
@@ -391,9 +392,11 @@
                             <input type="hidden" name="chose" value="{{ chose_id.id }}">
                             {% for station in course_timetable %}
                                 {% if station.stations_id == search_from.id %}
-                                    <input type="hidden" name="reservation_start_time" value="{{ station.at_location }}">
+                                    <input type="hidden" name="reservation_start_time"
+                                           value="{{ station.at_location|date:'H:i' }}">
                                 {% elif station.stations_id == search_to.id %}
-                                    <input type="hidden" name="reservation_end_time" value="{{ station.at_location }}">
+                                    <input type="hidden" name="reservation_end_time"
+                                           value="{{ station.at_location|date:'H:i' }}">
                                 {% endif %}
                             {% endfor %}
                             <button type="submit" class="btn btn-warning" style="width: 50%;"
