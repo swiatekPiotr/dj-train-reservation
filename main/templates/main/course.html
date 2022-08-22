@@ -61,8 +61,10 @@
                     {% for seat in seats %}
                         <div class="col" style="margin-left: -10px; margin-right: -10px; cursor: pointer;">
                             <form method="POST">
-
-                                {% if seat == chose_id %}
+                                {% if seat in reservations %}
+                                    <img src="{% static 'img/unavailable.png' %}" style="width: 100%;
+                                    transform: rotate(90deg); cursor: not-allowed;">
+                                {% elif seat == chose_id %}
                                     {% csrf_token %}
                                     <input type="hidden" name="chose" value="{{ seat.id }}">
                                     <input type="image" src="{% static 'img/chosen.png' %}"

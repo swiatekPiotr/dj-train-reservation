@@ -21,7 +21,7 @@ def home(request):
                                                           'WHERE stations_id = %s AND at_location >= %s '
                                                           'ORDER BY at_location ASC',
                                                           [search_from.id, search_time])
-            selected_courses_to = (obj.courses_id for obj in Timetable.objects.filter(stations_id=search_to.id))
+            selected_courses_to = [obj.courses_id for obj in Timetable.objects.filter(stations_id=search_to.id)]
             selected_courses_id = [i.courses_id for i in selected_courses_from if i.courses_id in selected_courses_to]
 
             # Matched courses and its times returned inside lists
@@ -70,19 +70,23 @@ def course(request, id_cour, id_from, id_to, id_car):
 
     # Selected reserved seats
     seats_id_list = [seat.id for seat in seats]
-    search_from_time = Timetable.objects.raw('SELECT at_location from main_timetable '
-                                             'WHERE courses_id = %s AND stations_id = %s', [id_cour, id_from])
-    search_to_time = Timetable.objects.raw('SELECT at_location from main_timetable '
-                                           'WHERE courses_id = %s AND stations_id = %s', [id_cour, id_to])
-    reservations = Reservation.objects.raw('SELECT seats_id from main_reservation '
-                                           'WHERE seats_id in %s AND reservation_start_time < %s '
-                                           'OR seats_id in %s AND reservation_start_time >= %s '
-                                           'AND reservation_end_time <= %s '
-                                           'OR seats_id in %s AND reservation_end_time > %s'
-                                           , [seats_id_list, search_to_time,
-                                              seats_id_list, search_from_time, search_to_time,
-                                              seats_id_list, search_from_time])
-    print(reservations)
+    search_from_time = [p.at_location for p in Timetable.objects.raw('SELECT * from main_timetable '
+                                                                     'WHERE courses_id = %s AND stations_id = %s',
+                                                                     [id_cour, id_from])][0]
+    search_to_time = [p.at_location for p in Timetable.objects.raw('SELECT * from main_timetable '
+                                                                   'WHERE courses_id = %s AND stations_id = %s',
+                                                                   [id_cour, id_to])][0]
+    reservations = [p.seats for p in
+                    Reservation.objects.raw('SELECT * from main_reservation '
+                                            'WHERE (seats_id = ANY(%s) AND reservation_start_time < %s '
+                                            'AND reservation_end_time > %s) '
+                                            'OR (seats_id = ANY(%s) AND reservation_start_time >= %s '
+                                            'AND reservation_end_time <= %s) '
+                                            'OR (seats_id = ANY(%s) AND reservation_start_time < %s '
+                                            'AND reservation_end_time > %s)',
+                                            [seats_id_list, search_from_time, search_from_time,
+                                             seats_id_list, search_from_time, search_to_time,
+                                             seats_id_list, search_to_time, search_to_time])]
 
     if request.method == "POST":
         chose_id = Seating.objects.get(id=request.POST['chose'])
@@ -108,6 +112,7 @@ def course(request, id_cour, id_from, id_to, id_car):
                                                     'id_car': id_car,
                                                     'seats': seats,
                                                     'row_list': row_list,
+                                                    'reservations': reservations,
                                                     'chose_id': chose_id})
 
     return render(request, 'main/course.html', {'course_name': course_name,
