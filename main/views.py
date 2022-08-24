@@ -3,10 +3,16 @@ import random
 from django.core.exceptions import MultipleObjectsReturned
 from django.utils.datastructures import MultiValueDictKeyError
 from django.shortcuts import render
+from django.conf import settings
+from django.http import JsonResponse
+
+import stripe
 
 from .models import Station, Timetable, Course, Carriage, Seating, Reservation
 from .forms import ReservationForm
 from datetime import datetime, date
+
+stripe.api_key = settings.SECRET_KEY
 
 
 def home(request):
@@ -102,7 +108,7 @@ def course(request, id_cour, id_from, id_to, id_car):
                                       f"{request.POST['year-of-birth']}"
             reservation.discount = int(request.POST['kod_znizki'])/100
             reservation.save()
-            return render(request, 'main/confirmation.html', {})
+            return render(request, 'main/create_checkout_session.html', {})
 
         return render(request, 'main/course.html', {'course_name': course_name,
                                                     'search_from': search_from,
@@ -124,3 +130,26 @@ def course(request, id_cour, id_from, id_to, id_car):
                                                 'seats': seats,
                                                 'row_list': row_list,
                                                 'reservations': reservations})
+
+
+def create_checkout_session(request):
+    try:
+        YOUR_DOMAIN = "http://127.0.0.1:8000/"
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price': '{{PRICE_ID}}',
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            success_url=YOUR_DOMAIN + '/success/',
+            cancel_url=YOUR_DOMAIN + '/cancel/',
+        )
+    except Exception as e:
+        return str(e)
+
+    return JsonResponse({
+        'id': checkout_session.id
+    })
